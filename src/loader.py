@@ -3,15 +3,15 @@ from pypdf import PdfReader
 
 def load_pdf(path, start=0, end=None):
     reader = PdfReader(path)
-    pages = reader.pages[start:end]
-    text = ""
-    for page in pages:
-        text += (page.extract_text() or "") + "\n"
-    return text
+    pages = []
+    for i, page in enumerate(reader.pages[start:end], start=start + 1):
+        text = page.extract_text() or ""
+        if text.strip():
+            pages.append({"page": i, "text": text})
+    return pages
 
 
 if __name__ == "__main__":
-    text = load_pdf("data/jio_rhp.pdf", start=0, end=30)
-    print(f"Characters extracted: {len(text)}")
-    print(text[:500])
-    
+    pages = load_pdf("data/jio_rhp.pdf", start=0, end=30)
+    print(f"Pages loaded: {len(pages)}")
+    print(pages[5]["page"], pages[5]["text"][:300])
