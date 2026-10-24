@@ -13,6 +13,7 @@ def embed_texts(texts, model="gemini-embedding-001"):
 if __name__ == "__main__":
     pages = load_pdf("data/jio_rhp.pdf", start=0, end=30)
     chunks = chunk_pages(pages)
+    print(len(chunks))
     vectors = embed_texts([c["text"] for c in chunks[:5]])
     print(f"Vectors: {len(vectors)}, numbers per vector: {len(vectors[0])}")
     print(vectors[0][:5])
